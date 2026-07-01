@@ -1,0 +1,44 @@
+[
+  {
+    "vulnerabilityId": "VULN-001",
+    "vulnerabilityTitle": "Unsafe Java native deserialization leading to remote code execution",
+    "cwe": "CWE-502",
+    "severityScore": 9.8,
+    "exploitabilityScore": 8.8,
+    "controllerName": "InsecureDeserializationController",
+    "endpointPath": "/api/deserialize",
+    "httpMethod": "POST",
+    "sourceFile": "src/main/java/com/owasp/lab/controller/InsecureDeserializationController.java",
+    "preFixBehavior": "Accepted attacker-controlled base64 data and deserialized it with ObjectInputStream.readObject(), creating a gadget-chain RCE surface.",
+    "postFixBehavior": "Parses the request body as JSON with Jackson into a Map and returns a safe summary instead of deserializing native Java objects.",
+    "verificationStatus": "confirmed-fixed-in-code"
+  },
+  {
+    "vulnerabilityId": "VULN-002",
+    "vulnerabilityTitle": "SQL injection in login flow enabling authentication bypass",
+    "cwe": "CWE-89",
+    "severityScore": 9.8,
+    "exploitabilityScore": 8.8,
+    "controllerName": "AuthController",
+    "endpointPath": "/api/login",
+    "httpMethod": "POST",
+    "sourceFile": "src/main/java/com/owasp/lab/service/UserService.java",
+    "preFixBehavior": "Concatenated username and password directly into a native SQL statement, allowing SQLi-based authentication bypass.",
+    "postFixBehavior": "Uses a parameterized native query with :username and validates the password with PasswordEncoder.matches() against a BCrypt hash.",
+    "verificationStatus": "confirmed-fixed-in-code"
+  },
+  {
+    "vulnerabilityId": "VULN-003",
+    "vulnerabilityTitle": "SQL injection in user search causing mass data disclosure",
+    "cwe": "CWE-89",
+    "severityScore": 9.8,
+    "exploitabilityScore": 8.8,
+    "controllerName": "UserController",
+    "endpointPath": "/api/search",
+    "httpMethod": "GET",
+    "sourceFile": "src/main/java/com/owasp/lab/service/UserService.java",
+    "preFixBehavior": "Built the search query by concatenating the request term into a native SQL string, enabling full-table data disclosure.",
+    "postFixBehavior": "Uses a parameterized native query with :username so the supplied value is treated as data rather than executable SQL.",
+    "verificationStatus": "confirmed-fixed-in-code"
+  }
+]
