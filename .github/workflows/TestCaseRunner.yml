@@ -18,7 +18,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx cucumber-js
+      run: npx cucumber-js --require-module ts-node/register --require tests/step-definitions/**/*.ts --require tests/support/**/*.ts tests/features/security-validation.feature --format progress --format html:report.html
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
