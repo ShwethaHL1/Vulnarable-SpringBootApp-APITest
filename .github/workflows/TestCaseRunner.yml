@@ -25,4 +25,14 @@ jobs:
         name: playwright-report
         path: C:\vulnerable-springboot-app-feature-2.1\report.html
         retention-days: 30
+    - name: Generate HTML report
+      if: always()
+      run: node generate-report.js
+
+    - name: Upload Cucumber report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+          name: cucumber-report
+          path: C:\vulnerable-springboot-app-feature-2.1\report.html
 
